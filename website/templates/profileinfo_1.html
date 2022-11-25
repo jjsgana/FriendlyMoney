@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block page_name %}
+    Profile info. 1 / 2
+{% endblock %}
+
+{% block content %}
+<div class="content-section">
+  <form method="POST" action="">
+      {{ form.hidden_tag() }}
+      <fieldset class="form-group">
+          <legend class="border-bottom mb-4">Profile info. 1 / 2</legend>
+
+<div class="content-section">
+    <div class="media">
+      <!-- <img class="rounded-circle account-img" src="{{ image_file }}"> -->
+      <div class="media-body">
+        <!-- <h2 class="text-secondary">{{ current_user.name }}</h2> -->
+        <h2 class="text-secondary">{{ userinfo.name + ' ' + userinfo.surname }}</h2>
+        <p class="text-secondary">Offers: {{ userinfo.offrcurr }}</p>
+        <p class="text-secondary">Last Exchange: {{ last_exchange }}</p>
+        <p class="text-secondary">Total Exchanges: {{ tot_exchanges }}</p>
+        <p class="text-secondary">User recieved rates: 👍 {{ tot_positive_rates }} 👎 {{ tot_negative_rates }}</p>
+      </div>
+    </div>
+    <!-- FORM HERE -->
+    </form>
+</div>
+
+{% if userhasreviews == False %}
+<p class="text-secondary">{{ userinfo.name + ' ' + userinfo.surname }} Still has not recieved any rate</p>
+{% else %}
+    
+  <div class="form-group" style="overflow-x:auto;">
+    <table class="table table-hover table-light">
+        <thead>
+            <tr>
+                <th scope="col">From</th>
+                <th scope="col">Rate</th>
+                <!-- <th scope="col">User payed in</th>
+                <th scope="col">User recieved in</th> -->
+                <th scope="col">Currencies</th>
+                <th scope="col">Date</th>
+                <th scope="col">Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for item in rates%}
+            <!-- Your rows inside the table HERE: -->
+                    <tr>
+                        <td><a href="{{ url_for('users.profileinfo_1', user_id=item.userid_giving) }}">{{item.user_giving.name}} {{item.user_giving.surname}}</a></td>
+                        <td>
+                          {% if item.rate == "Negative" %}
+                          👎
+                          {% else %}
+                          👍
+                          {% endif %}
+                        </td>
+                        <!-- <td>{{item.user_giving_rate_curr}}</td>
+                        <td>{{item.user_receving_rate_curr}}</td> -->
+                        <td>{{item.user_receving_rate_curr}} ⇄ {{item.user_giving_rate_curr}}</td>
+                        <td>{{item.rate_date.strftime('%d-%m-%Y')}}</td>
+                        <td>{{item.comments}}</td>
+
+                    </tr>
+              {% endfor %}   
+            </tbody>
+    </table>
+  </div>
+    {% endif %}
+{% for page_num in rates.iter_pages(left_edge=1, right_edge=1,left_current=1,right_current=2) %}
+    {% if buttonsearch == 1 %}
+        
+    {% elif page_num %}
+        {% if rates.page == page_num %}
+            <a class="btn btn-info mb-4" href="#">{{page_num}}</a>
+        {% else %}
+            <a class="btn btn-outline-info mb-4" href="{{ url_for('users.profileinfo_1', page=page_num, user_id=user_id) }}">{{page_num}}</a>
+        {% endif %}
+    {% else %}
+        ...
+    {% endif %}
+{% endfor %}
+
+
+
+
+<div class="form-group">
+  {{ form.details(class="btn btn-outline-info") }}
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block page_name %}
+    MyApp
+{% endblock %}
+
+{% block content %}
+
+<div class="content-section">
+    <div class="media">
+      <img class="rounded-circle account-img" src="{{ image_file }}">
+      <div class="media-body">
+        <h2 class="text-secondary">{{ current_user.name }}</h2>
+        <p class="text-secondary">{{ current_user.email }}</p>
+        <p class="text-secondary">Member since: {{ current_user.register_date.strftime('%d-%m-%Y') }}</p>
+        <a class="btn btn-outline-info" href="{{url_for('auth.reset_request')}}">Change pass</a>
+        <a class="btn btn-outline-info" href="{{url_for('users.profileinfo_1', user_id=current_user.id)}}">See My rates</a>
+      </div>
+    </div>
+    <!-- FORM HERE -->
+</div>
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Account info</legend>
+            <div class="form-row">
+                <div class="col">
+                <div class="form-group">
+                    {{ form.name.label(class="form-control-label") }}
+                    {% if form.name.errors %}
+                        {{ form.name(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.name.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.name(class="form-control") }}
+                    {% endif %}
+                </div>
+                </div>
+                <div class="col">
+                <div class="form-group">
+                    {{ form.surname.label(class="form-control-label") }}
+                    {% if form.surname.errors %}
+                        {{ form.surname(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.surname.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.surname(class="form-control") }}
+                    {% endif %}
+                </div>
+                </div>
+                </div>
+                <div class="form-row">
+                <div class="col">
+                <div class="form-group">
+                    {{ form.fb.label(class="form-control-label") }}
+                    {% if form.fb.errors %}
+                        {{ form.fb(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.fb.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.fb(class="form-control") }}
+                    {% endif %}
+                </div>
+                </div>
+                <div class="col">
+                <div class="form-group">
+                    {{ form.wa.label(class="form-control-label") }}
+                    {% if form.wa.errors %}
+                        {{ form.wa(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.wa.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.wa(class="form-control") }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+        <div class="col">
+        <div class="form-group">
+            <label>I Need</label>
+                <select name="needcurr" class="form-control selectpicker" multiple required>
+                    {% for item in form.needcurr %}
+                    <option value={{item}}>{{item}}</option>
+                    {% endfor %}
+                </select>
+        </div>
+        </div>
+        <div class="col">
+        <div class="form-group">
+            <label>I Offer</label>
+                <select name="offercurr" class="form-control selectpicker" multiple required>
+                    {% for item in form.offrcurr %}
+                    <option value={{item}}>{{item}}</option>
+                    {% endfor %}
+                </select>
+        </div>
+        </div>
+        </div>
+
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+
+    </form>
+</div>
+
+
+
+
+{% endblock content %}

@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block page_name %}
+    Home
+{% endblock %}
+
+{% block content %}
+<div class="content-section">
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Friendly Money</legend>
+                
+<form>
+    <div class="form-row">
+        <div class="col">
+        <div class="form-group">
+            {{ form.name.label(class="form-control-label") }}
+            {% if form.name.errors %}
+                {{ form.name(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.name.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.name(class="form-control") }}
+            {% endif %}
+        </div>
+
+    </div>
+        <div class="col">
+            <div class="form-group">
+                {{ form.ineed.label(class="form-control-label") }}
+                {% if form.ineed.errors %}
+                    {{ form.ineed(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in form.ineed.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% else %}
+            {{ form.ineed(class="form-control") }}
+        {% endif %}
+
+        </div>
+    </div>
+    </div>
+    <div class="form-group">
+        {{ form.submit(class="btn btn-outline-info") }}
+    </div>
+</form>
+
+
+
+<div class="form-group">
+    <table class="table table-hover table-light">
+        <thead>
+            <tr>
+                <!-- Your Columns HERE -->
+                <th scope="col">Name</th>
+                <th scope="col">Offers</th>
+                <th scope="col">Needs</th>
+                <!-- <th scope="col">Num Exchanges</th> -->
+                <!-- <th scope="col">Last Exchange</th> -->
+                <th scope="col">Rate</th>
+                <!-- <th scope="col">See</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Your rows inside the table HERE: -->
+                {% for item in items%}
+                    <tr>
+                        <!-- <td>{{item.name}}</td> -->
+                        <td><a href="{{ url_for('users.profileinfo_1', user_id=item.id) }}">{{item.name}}</a></td>
+                        <td>{{item.offrcurr}}</td>
+                        <td>{{item.needcurr}}</td>
+                        <!-- <td>{{item.tot_exch}}</td> -->
+                        <!-- <td>{{item.last_exch}}</td> -->
+                        <td >👍 {{ item.tot_positive_rates }} 👎 {{ item.tot_negative_rates }}</td>
+                        <!-- <td><a href="{{ url_for('users.profileinfo_1', user_id=item.id) }}">See</a></td> -->
+                    </tr>
+                {% endfor %}
+</div>
+    </tbody>
+</table>
+
+{% for page_num in user.iter_pages(left_edge=1, right_edge=1,left_current=1,right_current=2) %}
+    {% if buttonsearch == 1 %}
+        
+    {% elif page_num %}
+        {% if user.page == page_num %}
+            <a class="btn btn-info mb-4" href="#">{{page_num}}</a>
+        {% else %}
+            <a class="btn btn-outline-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{page_num}}</a>
+        {% endif %}
+    {% else %}
+        ...
+    {% endif %}
+{% endfor %}
+
+{% endblock %}
+
+

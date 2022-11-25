@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block page_name %}
+    Rate User
+{% endblock %}
+
+{% block content %}
+<div class="content-section">
+  <form method="POST" action="">
+      {{ form.hidden_tag() }}
+      <fieldset class="form-group">
+          <legend class="border-bottom mb-4">Rate User: {{ userinfo.name + ' ' + userinfo.surname }}</legend>
+
+<div class="content-section">
+    <div class="media">
+      <div class="media-body">
+        <p class="text-secondary">Facebook: {{ userinfo.fb }}</p>
+        <p class="text-secondary">WhatsApp: {{ userinfo.wa }}</p>
+      </div>
+    </div>
+    </form>
+</div>
+
+
+<div class="form-group">
+  {{ form.positive_or_negative.label(class="form-control-label") }}
+  {% if form.positive_or_negative.errors %}
+      {{ form.positive_or_negative(class="form-control is-invalid") }}
+      <div class="invalid-feedback">
+          {% for error in form.positive_or_negative.errors %}
+              <span>{{ error }}</span>
+          {% endfor %}
+      </div>
+  {% else %}
+      {{ form.positive_or_negative(class="form-control", id="positive_or_negative", **{"onchange":"update_labels()"}) }}
+  {% endif %}
+</div>
+
+<div class="form-group">
+    <label id="user_name" hidden>{{ userinfo.name }}</label>
+  <label id="user_receving_rate_curr">{{ userinfo.name }} payed me in</label>
+  {% if form.user_receving_rate_curr.errors %}
+      {{ form.user_receving_rate_curr(class="form-control is-invalid") }}
+      <div class="invalid-feedback">
+          {% for error in form.user_receving_rate_curr.errors %}
+              <span>{{ error }}</span>
+          {% endfor %}
+      </div>
+  {% else %}
+      {{ form.user_receving_rate_curr(class="form-control") }}
+  {% endif %}
+</div>
+
+<div class="form-group">
+  <label id="user_giving_rate_curr">I payed to {{ userinfo.name }} in</label>
+  {% if form.user_giving_rate_curr.errors %}
+      {{ form.user_giving_rate_curr(class="form-control is-invalid") }}
+      <div class="invalid-feedback">
+          {% for error in form.user_giving_rate_curr.errors %}
+              <span>{{ error }}</span>
+          {% endfor %}
+      </div>
+  {% else %}
+      {{ form.user_giving_rate_curr(class="form-control") }}
+  {% endif %}
+</div>
+
+<div class="form-group">
+  {{ form.comments.label(class="form-control-label") }}
+  {% if form.comments.errors %}
+      {{ form.comments(class="form-control is-invalid") }}
+      <div class="invalid-feedback">
+          {% for error in form.comments.errors %}
+              <span>{{ error }}</span>
+          {% endfor %}
+      </div>
+  {% else %}
+      {{ form.comments(class="form-control") }}
+  {% endif %}
+</div>
+
+
+<div class="form-group">
+  {% if selfrating == True %}
+  <p>You can't rank yourself</p>
+  {% elif able_rankagain == False %}
+  <p>Not possible to Rank again, please wait {{ time_remaining }}</p>
+  {% else %}
+  {{ form.rateperson(class="btn btn-outline-info") }}
+  {% endif %}
+</div>
+
+<script>
+    function update_labels() {
+        var elem = document.getElementById("positive_or_negative");
+        
+        var user_name = document.getElementById("user_name");          
+        var user_receving_rate_curr = document.getElementById("user_receving_rate_curr");          
+        var user_giving_rate_curr = document.getElementById("user_giving_rate_curr");          
+        console.log(user_receving_rate_curr.textContent,user_giving_rate_curr.textContent)
+        if (elem.options[elem.selectedIndex].value === "Negative") {
+            user_receving_rate_curr.innerHTML = user_name.innerHTML+" had to pay me in";
+            user_giving_rate_curr.innerHTML = "I had to pay "+user_name.innerHTML+" in";
+        } else {
+            user_receving_rate_curr.innerHTML = user_name.innerHTML+" payed me in";
+            user_giving_rate_curr.innerHTML = "I payed to "+user_name.innerHTML+" in";
+        }
+    }
+</script>
+
+
+{% endblock content %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block page_name %}
+    Profile info. 2 / 2
+{% endblock %}
+
+{% block content %}
+<div class="content-section">
+  <form method="POST" action="">
+      {{ form.hidden_tag() }}
+      <fieldset class="form-group">
+          <legend class="border-bottom mb-4">Profile info. 2 / 2</legend>
+
+<div class="content-section">
+    <div class="media">
+      <div class="media-body">
+        <h2 class="text-secondary">{{ userinfo.name + ' ' + userinfo.surname }}</h2>
+        <p class="text-secondary">{{ userinfo.offrcurr }}</p>
+      </div>
+    </div>
+    <!-- FORM HERE -->
+    </form>
+</div>
+<div class="content-section">
+  <div class="media">
+    <div class="media-body">
+      <p class="text-secondary">Facebook: {{ userinfo.fb }}</p>
+      <p class="text-secondary">WhatsApp: {{ userinfo.wa }}</p>
+    </div>
+  </div>
+  <!-- FORM HERE -->
+  </form>
+</div>
+
+<div class="form-group">
+  {{ form.rate(class="btn btn-outline-info") }}
+</div>
+
+
+
+
+{% endblock content %}
