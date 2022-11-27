@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, flash, redirect, request, url_for
 from website import db
 from website.users.forms import *
 from website.models import *
+from website.users.utils import *
 from flask_login import current_user, login_required
 from datetime import timedelta
 from datetime import datetime
@@ -66,8 +67,8 @@ def profileinfo_2(user_id):
 @login_required
 def rate(user_id):
 
-    userinfo = User.query.get_or_404(user_id)
-    selfrating = int(current_user.get_id()) == int(userinfo.id)
+    userinfo = User.query.get_or_404(user_id) # info. of user receiving the rate
+    selfrating = int(current_user.get_id()) == int(userinfo.id) # current_user is the logged in user | userinfo is user who'll receive a rate
     form = RateUser()
 
     def user_able_to_rank_again(hours=2):
@@ -84,8 +85,7 @@ def rate(user_id):
             return posible_to_rank_again,time_remaining
 
     x = user_able_to_rank_again()
-    #print(current_user.name + " " + current_user.surname)
-    #print(userinfo.name + " " + userinfo.surname)
+
     if form.validate_on_submit():
         input_from_form = Rate(
         rate = form.positive_or_negative.data,
@@ -100,6 +100,7 @@ def rate(user_id):
         
         db.session.add(input_from_form)
         db.session.commit()
+        send_notification_when_rating(giving_rate_user=current_user, receving_rate_user=userinfo)
         flash(f"Thank you {current_user.name}! You have rated user {userinfo.name}", 'success')
         return redirect(url_for('main.home'))
 
