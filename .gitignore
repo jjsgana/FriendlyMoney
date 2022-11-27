@@ -1,3 +1,4 @@
 env/
 *.pyc
 friendlymoneyvirtual/
+website/tests.py
