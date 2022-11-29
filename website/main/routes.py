@@ -83,6 +83,8 @@ def myapp():
         form.wa.data = current_user.wa
         form.account_hidden.data = current_user.account_hidden
 
+    needcurr = current_user.needcurr.split(",")
+    offrcurr = current_user.offrcurr.split(",")
 
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file )
-    return render_template("myapp.html", image_file=image_file, form=form)
+    return render_template("myapp.html", image_file=image_file, form=form, needcurr=needcurr, offrcurr=offrcurr)
