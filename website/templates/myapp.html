@@ -109,12 +109,15 @@
         </div>
         </div>
         </div>
+        <div class="form-check">
+            {{ form.account_hidden(class="form-check-input")}}
+            {{ form.account_hidden.label(class="form-check-label")}}
+        </div>
 
             </fieldset>
             <div class="form-group">
                 {{ form.submit(class="btn btn-outline-info") }}
             </div>
-
     </form>
 </div>
 

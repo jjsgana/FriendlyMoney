@@ -13,7 +13,7 @@ def home():
     form = Home()
     items_per_page=5
     page = request.args.get('page', 1, type=int)
-    user = User.query.order_by(User.register_date.desc()).paginate(page=page,per_page=items_per_page)
+    user = User.query.filter_by(account_hidden=0).order_by(User.register_date.desc()).paginate(page=page,per_page=items_per_page)
     items = [row.__dict__ for row in user] # trasnform rows from Users in a List with each row as Dict
     for item in items:
         tot_positive_rates = len(Rate.query.filter_by(userid_receiving=item["id"],rate="Positive").all())
@@ -64,7 +64,6 @@ def myapp():
     needcurr = request.form.getlist('needcurr')
     offrcurr = request.form.getlist('offercurr')
     
-
     if form.validate_on_submit():
         current_user.name = form.name.data
         current_user.surname = form.surname.data
@@ -73,6 +72,7 @@ def myapp():
         current_user.needcurr = ','.join(needcurr)
         current_user.offrcurr = ','.join(offrcurr)
         current_user.last_update_date = datetime.utcnow()
+        current_user.account_hidden = form.account_hidden.data
         db.session.commit()
         flash(f'Your account has been updated!', 'success')
         return redirect(url_for('main.home'))
@@ -81,6 +81,8 @@ def myapp():
         form.surname.data = current_user.surname
         form.fb.data = current_user.fb
         form.wa.data = current_user.wa
+        form.account_hidden.data = current_user.account_hidden
+
 
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file )
     return render_template("myapp.html", image_file=image_file, form=form)

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField
+from wtforms import StringField, SubmitField, SelectField, BooleanField
 from wtforms.validators import DataRequired, Length
 from website.models import *
 from website.config import CurrenciesChoices
@@ -19,4 +19,5 @@ class MyApp(FlaskForm):
     wa = StringField('WhatsApp', validators=[DataRequired(), Length(min=8, max=20)])
     needcurr = CurrenciesChoices
     offrcurr = CurrenciesChoices
+    account_hidden = BooleanField('Account Hidden?')
     submit = SubmitField('Update')

@@ -37,7 +37,7 @@ def profileinfo_1(user_id):
     page = request.args.get('page', 1, type=int)
     rates = Rate.query.filter_by(userid_receiving=user_id).order_by(Rate.rate_date.desc()).paginate(page=page,per_page=items_per_page)
     items = [row.__dict__ for row in rates] # trasnform rows from Users in a List with each row as Dict
-
+    print(items)
     if form.validate_on_submit():
         return redirect(url_for('users.profileinfo_2', user_id=user_id))
     return render_template("profileinfo_1.html",

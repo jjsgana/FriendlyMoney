@@ -22,6 +22,7 @@ class User(db.Model, UserMixin):
     register_date = db.Column(db.DateTime, default=datetime.utcnow)
     last_update_date = db.Column(db.DateTime)
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
+    account_hidden = db.Column(db.Boolean, nullable=False, default=0)
 
 
 
