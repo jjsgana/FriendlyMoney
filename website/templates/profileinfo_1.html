@@ -17,10 +17,10 @@
       <div class="media-body">
         <!-- <h2 class="text-secondary">{{ current_user.name }}</h2> -->
         <h2 class="text-secondary">{{ userinfo.name + ' ' + userinfo.surname }}</h2>
-        <p class="text-secondary">Offers: {{ userinfo.offrcurr }}</p>
+        <p class="text-secondary">Currencies to Exchange: {{ userinfo.offrcurr }}</p>
         <p class="text-secondary">Last Exchange: {{ last_exchange }}</p>
         <p class="text-secondary">Total Exchanges: {{ tot_exchanges }}</p>
-        <p class="text-secondary">User recieved rates: 👍 {{ tot_positive_rates }} 👎 {{ tot_negative_rates }}</p>
+        <p class="text-secondary">Exchanges Ranking: 👍 {{ tot_positive_rates }} 👎 {{ tot_negative_rates }}</p>
       </div>
     </div>
     <!-- FORM HERE -->
@@ -28,7 +28,7 @@
 </div>
 
 {% if userhasreviews == False %}
-<p class="text-secondary">{{ userinfo.name + ' ' + userinfo.surname }} Still has not recieved any rate</p>
+<p class="text-secondary">{{ userinfo.name + ' ' + userinfo.surname }} hasn't get any rate</p>
 {% else %}
     
   <div class="form-group" style="overflow-x:auto;">

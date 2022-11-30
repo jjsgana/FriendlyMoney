@@ -15,7 +15,7 @@ class Home(FlaskForm):
 class MyApp(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(min=2, max=20)])
     surname = StringField('Surname', validators=[DataRequired(), Length(min=2, max=20)])
-    fb = StringField('Facebook Profile Link', validators=[DataRequired(), Length(min=8, max=30)])
+    fb = StringField('Facebook Link', validators=[DataRequired(), Length(min=8, max=30)])
     wa = StringField('WhatsApp', validators=[DataRequired(), Length(min=8, max=20)])
     needcurr = CurrenciesChoices
     offrcurr = CurrenciesChoices

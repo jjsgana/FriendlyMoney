@@ -31,7 +31,7 @@ def profileinfo_1(user_id):
         last_exchange = Rate.query.filter_by(userid_receiving=user_id).order_by(Rate.rate_date.desc()).first().rate_date
         last_exchange = last_exchange.strftime('%d-%m-%Y')
     else:
-        last_exchange = 'No transactions yet'
+        last_exchange = ''
 
     items_per_page=5
     page = request.args.get('page', 1, type=int)

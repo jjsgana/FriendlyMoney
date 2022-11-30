@@ -18,7 +18,7 @@ class Register(FlaskForm):
     surname = StringField('Surname', validators=[DataRequired(), Length(min=2, max=20)])
     needcurr = CurrenciesChoices
     offrcurr = CurrenciesChoices
-    fb = StringField('Facebook Profile Link', validators=[DataRequired(), Length(min=8, max=30)])
+    fb = StringField('Facebook Link', validators=[DataRequired(), Length(min=8, max=30)])
     wa = StringField('WhatsApp', validators=[DataRequired(), Length(min=8, max=20)])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=5, max=20)])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password'), Length(min=5, max=20)])

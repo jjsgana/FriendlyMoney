@@ -38,7 +38,7 @@
 
 <div class="form-group">
     <label id="user_name" hidden>{{ userinfo.name }}</label>
-  <label id="user_receving_rate_curr">{{ userinfo.name }} payed me in</label>
+  <label id="user_receving_rate_curr">{{ userinfo.name }} transferred me in</label>
   {% if form.user_receving_rate_curr.errors %}
       {{ form.user_receving_rate_curr(class="form-control is-invalid") }}
       <div class="invalid-feedback">
@@ -52,7 +52,7 @@
 </div>
 
 <div class="form-group">
-  <label id="user_giving_rate_curr">I payed to {{ userinfo.name }} in</label>
+  <label id="user_giving_rate_curr">I transferred to {{ userinfo.name }} in</label>
   {% if form.user_giving_rate_curr.errors %}
       {{ form.user_giving_rate_curr(class="form-control is-invalid") }}
       <div class="invalid-feedback">
@@ -99,11 +99,11 @@
         var user_giving_rate_curr = document.getElementById("user_giving_rate_curr");          
         console.log(user_receving_rate_curr.textContent,user_giving_rate_curr.textContent)
         if (elem.options[elem.selectedIndex].value === "Negative") {
-            user_receving_rate_curr.innerHTML = user_name.innerHTML+" had to pay me in";
-            user_giving_rate_curr.innerHTML = "I had to pay "+user_name.innerHTML+" in";
+            user_receving_rate_curr.innerHTML = user_name.innerHTML+" had to transfer me in";
+            user_giving_rate_curr.innerHTML = "I had to transfer "+user_name.innerHTML+" in";
         } else {
-            user_receving_rate_curr.innerHTML = user_name.innerHTML+" payed me in";
-            user_giving_rate_curr.innerHTML = "I payed to "+user_name.innerHTML+" in";
+            user_receving_rate_curr.innerHTML = user_name.innerHTML+" transferred me in";
+            user_giving_rate_curr.innerHTML = "I transferred to "+user_name.innerHTML+" in";
         }
     }
 </script>
