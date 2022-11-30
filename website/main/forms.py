@@ -19,5 +19,5 @@ class MyApp(FlaskForm):
     wa = StringField('WhatsApp', validators=[DataRequired(), Length(min=8, max=20)])
     needcurr = CurrenciesChoices
     offrcurr = CurrenciesChoices
-    account_hidden = BooleanField('Account Hidden?')
+    account_hidden = BooleanField('Hide my acccount')
     submit = SubmitField('Update')
