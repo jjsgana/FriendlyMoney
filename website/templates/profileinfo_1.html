@@ -48,7 +48,13 @@
           {% for item in rates%}
             <!-- Your rows inside the table HERE: -->
                     <tr>
-                        <td><a href="{{ url_for('users.profileinfo_1', user_id=item.userid_giving) }}">{{item.user_giving.name}} {{item.user_giving.surname}}</a></td>
+                        <td>
+                          {% if item.user_giving.account_hidden %}
+                            <span href="{{ url_for('users.profileinfo_1', user_id=item.userid_giving) }}">{{item.user_giving.name}} {{item.user_giving.surname}}</span>
+                          {% else %}
+                            <a href="{{ url_for('users.profileinfo_1', user_id=item.userid_giving) }}">{{item.user_giving.name}} {{item.user_giving.surname}}</a>
+                          {% endif %}
+                        </td>
                         <td>
                           {% if item.rate == "Negative" %}
                           👎
