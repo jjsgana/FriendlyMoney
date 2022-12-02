@@ -17,10 +17,34 @@
       <div class="media-body">
         <!-- <h2 class="text-secondary">{{ current_user.name }}</h2> -->
         <h2 class="text-secondary">{{ userinfo.name + ' ' + userinfo.surname }}</h2>
-        <p class="text-secondary">Currencies to Exchange: {{ userinfo.offrcurr }}</p>
-        <p class="text-secondary">Last Exchange: {{ last_exchange }}</p>
-        <p class="text-secondary">Total Exchanges: {{ tot_exchanges }}</p>
-        <p class="text-secondary">Exchanges Ranking: 👍 {{ tot_positive_rates }} 👎 {{ tot_negative_rates }}</p>
+
+        <div class="form-row">
+          <div class="col">
+          <p class="text-secondary">Currencies to Exchange: <b>{{ userinfo.offrcurr }}</b></p>
+        </div>
+        <div class="col">
+        <p class="text-secondary">Last Exchange: <b>{{ last_exchange }}</b></p>
+        </div>
+        </div>
+
+        <!-- <div class="form-row">
+          <div class="col">
+          <p class="text-secondary">Rates given: <b>{{ tot_exchanges }}</b></p>
+        </div>
+        <div class="col">
+        <p class="text-secondary"></b>Rates recieved: <b>{{ tot_exchanges }}</b></p>
+        </div>
+        </div> -->
+
+        <div class="form-row">
+          <div class="col">
+          <p class="text-secondary">Exchanges Ranking: 👍 <b>{{ tot_positive_rates }}</b> 👎 <b>{{ tot_negative_rates }}</b></p>
+        </div>
+        <div class="col">
+        <!-- <p class="text-secondary">bbbb</p> -->
+        </div>
+        </div>
+        
       </div>
     </div>
     <!-- FORM HERE -->
@@ -74,19 +98,24 @@
     </table>
   </div>
     {% endif %}
-{% for page_num in rates.iter_pages(left_edge=1, right_edge=1,left_current=1,right_current=2) %}
-    {% if buttonsearch == 1 %}
-        
-    {% elif page_num %}
-        {% if rates.page == page_num %}
-            <a class="btn btn-info mb-4" href="#">{{page_num}}</a>
+
+{% if hide_paginator == True %}
+
+  {% else %}
+    {% for page_num in rates.iter_pages(left_edge=1, right_edge=1,left_current=1,right_current=2) %}
+
+        {% if page_num %}
+            {% if rates.page == page_num %}
+                <a class="btn btn-info mb-4" href="#">{{page_num}}</a>
+            {% else %}
+                <a class="btn btn-outline-info mb-4" href="{{ url_for('users.profileinfo_1', page=page_num, user_id=user_id) }}">{{page_num}}</a>
+            {% endif %}
         {% else %}
-            <a class="btn btn-outline-info mb-4" href="{{ url_for('users.profileinfo_1', page=page_num, user_id=user_id) }}">{{page_num}}</a>
+            ...
         {% endif %}
-    {% else %}
-        ...
-    {% endif %}
-{% endfor %}
+        
+    {% endfor %}
+{% endif %}
 
 
 

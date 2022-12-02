@@ -14,10 +14,16 @@ def profileinfo_1(user_id):
 
     form = ProfileInfo_1()
     userinfo = User.query.get_or_404(user_id)
-    
-    tot_exchanges = len(Rate.query.filter_by(userid_receiving=user_id).all()) + len(Rate.query.filter_by(userid_giving=user_id).all())
+
+    block_user = block_page_when_user_is_hidden(userinfo, user_id)
+    if block_user == 'blocked':
+        return redirect(url_for('main.home'))
+
+
+    #tot_exchanges = len(Rate.query.filter_by(userid_receiving=user_id).all()) + len(Rate.query.filter_by(userid_giving=user_id).all())
     tot_positive_rates = len(Rate.query.filter_by(userid_receiving=user_id,rate="Positive").all())
     tot_negative_rates = len(Rate.query.filter_by(userid_receiving=user_id,rate="Negative").all())
+    tot = tot_positive_rates + tot_negative_rates
 
     if tot_positive_rates + tot_negative_rates == 0:
         userhasreviews = False
@@ -37,26 +43,38 @@ def profileinfo_1(user_id):
     page = request.args.get('page', 1, type=int)
     rates = Rate.query.filter_by(userid_receiving=user_id).order_by(Rate.rate_date.desc()).paginate(page=page,per_page=items_per_page)
     items = [row.__dict__ for row in rates] # trasnform rows from Users in a List with each row as Dict
-    print(items)
+    #print(tot)
+    if tot >= items_per_page+1:
+        hide_paginator = False
+    else:
+        hide_paginator = True
+
     if form.validate_on_submit():
         return redirect(url_for('users.profileinfo_2', user_id=user_id))
     return render_template("profileinfo_1.html",
                             form=form,
                             userinfo=userinfo,
-                            tot_exchanges = tot_exchanges,
+                            #tot_exchanges = tot_exchanges,
                             tot_positive_rates = tot_positive_rates,
                             tot_negative_rates = tot_negative_rates,
                             last_exchange = last_exchange,
                             items=items,
                             rates=rates,
                             user_id=user_id,
-                            userhasreviews=userhasreviews)
+                            userhasreviews=userhasreviews,
+                            hide_paginator=hide_paginator)
 
 
 @users.route('/profileinfo_2/<int:user_id>', methods=['GET','POST'])
 @login_required
 def profileinfo_2(user_id):
     userinfo = User.query.get_or_404(user_id)
+  
+    block_user = block_page_when_user_is_hidden(userinfo, user_id)
+    if block_user == 'blocked':
+        return redirect(url_for('main.home'))
+
+
     form = ProfileInfo_2()
     if form.validate_on_submit():
         return redirect(url_for('users.rate', user_id=user_id))
@@ -71,7 +89,11 @@ def rate(user_id):
     selfrating = int(current_user.get_id()) == int(userinfo.id) # current_user is the logged in user | userinfo is user who'll receive a rate
     form = RateUser()
 
-    def user_able_to_rank_again(hours=2):
+    block_user = block_page_when_user_is_hidden(userinfo, user_id)
+    if block_user == 'blocked':
+        return redirect(url_for('main.home'))
+
+    def user_able_to_rank_again(hours=0):
         user_firs_time_rating = Rate.query.filter_by(userid_giving=current_user.get_id()).order_by(Rate.rate_date.desc()).first() == None
         if user_firs_time_rating == True:
             print('first time user doing a rate')

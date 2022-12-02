@@ -11,7 +11,7 @@
       <div class="media-body">
         <h2 class="text-secondary">{{ current_user.name }}</h2>
         <p class="text-secondary">{{ current_user.email }}</p>
-        <p class="text-secondary">Member since: {{ current_user.register_date.strftime('%d-%m-%Y') }}</p>
+        <p class="text-secondary">Member since: <b>{{ current_user.register_date.strftime('%d-%m-%Y') }}</b></p>
         <a class="btn btn-outline-info" href="{{url_for('auth.reset_request')}}">Change pass</a>
         <a class="btn btn-outline-info" href="{{url_for('users.profileinfo_1', user_id=current_user.id)}}">See My rates</a>
       </div>

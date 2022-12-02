@@ -1,6 +1,16 @@
 from flask_mail import Message
 from website import mail
 from flask import url_for
+from flask_login import current_user
+from flask import flash
+
+def block_page_when_user_is_hidden(userinfo, user_id):
+    if userinfo.account_hidden and user_id == current_user.id:
+        #flash('account hidden, but same user logged in, good', 'info')
+        return 'allowed'
+    elif userinfo.account_hidden:
+        flash('Account hidden, not possible to see', 'danger')
+        return 'blocked'
 
 def send_notification_when_rating(giving_rate_user, receving_rate_user):
     user_giving_rate_name = giving_rate_user.name

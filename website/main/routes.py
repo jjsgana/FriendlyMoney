@@ -20,7 +20,7 @@ def home():
         tot_negative_rates = len(Rate.query.filter_by(userid_receiving=item["id"],rate="Negative").all())
         item["tot_positive_rates"] = tot_positive_rates
         item["tot_negative_rates"] = tot_negative_rates
-
+    
     if form.validate_on_submit():
 
         if form.submit.data:
