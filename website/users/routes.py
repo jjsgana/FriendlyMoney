@@ -6,6 +6,7 @@ from website.users.utils import *
 from flask_login import current_user, login_required
 from datetime import timedelta
 from datetime import datetime
+from website.config import Config
 
 users = Blueprint('users', __name__)
 
@@ -99,7 +100,7 @@ def rate(user_id):
     if block_user == 'blocked':
         return redirect(url_for('main.home'))
 
-    def user_able_to_rank_again(hours=0):
+    def user_able_to_rank_again(hours=Config.TIME_ABLE_RANK_AGAIN):
         user_firs_time_rating = Rate.query.filter_by(userid_giving=current_user.get_id()).order_by(Rate.rate_date.desc()).first() == None
         if user_firs_time_rating == True:
             print('first time user doing a rate')

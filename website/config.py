@@ -15,6 +15,9 @@ class Config:
     MAIL_USE_TLS = False
     MAIL_USE_SSL = True
 
+    # time_able_rank_again (in hours)
+    TIME_ABLE_RANK_AGAIN = int(os.environ.get('TIME_ABLE_RANK_AGAIN'))
+
 
 def CurrenciesChoices():
     CurrenciesChoices=[ ('NZD'), ('AUD'), ('CLP') ]
