@@ -4,6 +4,8 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
 from website.config import Config
+import os
+from os import path
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
@@ -33,9 +35,14 @@ def create_app(config_class=Config):
     app.register_blueprint(users, url_prefix='/')
     app.register_blueprint(errors, url_prefix='/')
 
-
-    with app.app_context():
-        db.create_all()
+    dbpath = os.getcwd() + '\instance\database.db'
+    
+    if path.exists(dbpath) == True:
+        print('db already exists')
+    else:
+        with app.app_context():
+            db.create_all()
+            print('db created')
 
     return app
 
