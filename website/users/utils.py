@@ -25,6 +25,8 @@ def send_notification_when_rating(giving_rate_user, receving_rate_user):
 
 User {user_giving_rate_name} {user_giving_rate_surn} rated you in the app.
 
+If you have already rated {user_giving_rate_name} {user_giving_rate_surn}, please discard the mail.
+
 Rate {user_giving_rate_name} {user_giving_rate_surn} now going here:
 
 {url_for('users.rate', user_id=user_giving_rate_id, _external=True)}

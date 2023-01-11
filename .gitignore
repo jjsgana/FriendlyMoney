@@ -2,3 +2,5 @@ env/
 *.pyc
 friendlymoneyvirtual/
 website/tests.py
+#instance/database.db
+instance/databasebkp.db

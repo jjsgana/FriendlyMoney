@@ -79,7 +79,7 @@ body {
     font-size: 2.5rem;
   }
 
-  button {
+  .styledButton button {
       background-color: white !important;
       border: 1px solid #ced4da !important;
   }

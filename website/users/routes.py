@@ -6,6 +6,7 @@ from website.users.utils import *
 from flask_login import current_user, login_required
 from datetime import timedelta
 from datetime import datetime
+from website.config import Config
 
 users = Blueprint('users', __name__)
 
@@ -69,7 +70,6 @@ def profileinfo_1(user_id):
 @login_required
 def profileinfo_2(user_id):
     userinfo = User.query.get_or_404(user_id)
-  
     block_user = block_page_when_user_is_hidden(userinfo, user_id)
     if block_user == 'blocked':
         return redirect(url_for('main.home'))
@@ -77,6 +77,11 @@ def profileinfo_2(user_id):
 
     form = ProfileInfo_2()
     if form.validate_on_submit():
+        current_user_is_hidden = User.query.filter_by(id=current_user.get_id()).first().account_hidden
+        if current_user_is_hidden == True:
+            flash(f"You can't rate a user if your account is hidden, please unhide it", 'warning')
+            return redirect(url_for('main.myapp'))
+
         return redirect(url_for('users.rate', user_id=user_id))
     return render_template("profileinfo_2.html", form=form, userinfo=userinfo)
 
@@ -84,6 +89,8 @@ def profileinfo_2(user_id):
 @users.route('/rate_user/<int:user_id>', methods=['GET','POST'])
 @login_required
 def rate(user_id):
+    #test = Rate.query.filter_by(userid_giving=current_user.get_id()).order_by(Rate.rate_date.desc()).first().rate_date
+    #print(test)
 
     userinfo = User.query.get_or_404(user_id) # info. of user receiving the rate
     selfrating = int(current_user.get_id()) == int(userinfo.id) # current_user is the logged in user | userinfo is user who'll receive a rate
@@ -93,7 +100,7 @@ def rate(user_id):
     if block_user == 'blocked':
         return redirect(url_for('main.home'))
 
-    def user_able_to_rank_again(hours=0):
+    def user_able_to_rank_again(hours=Config.TIME_ABLE_RANK_AGAIN):
         user_firs_time_rating = Rate.query.filter_by(userid_giving=current_user.get_id()).order_by(Rate.rate_date.desc()).first() == None
         if user_firs_time_rating == True:
             print('first time user doing a rate')

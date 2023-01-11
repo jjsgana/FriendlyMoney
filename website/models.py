@@ -3,7 +3,6 @@ from flask import current_app
 from datetime import datetime
 from flask_login import UserMixin
 from itsdangerous import URLSafeTimedSerializer as Seralizer
-# from itsdangerous.url_safe import URLSafeSerializer as Seralizer
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -14,7 +13,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(30), unique=True, nullable=True)
     name = db.Column(db.String(30), nullable=False)
     surname = db.Column(db.String(30), nullable=False)
-    password = db.Column(db.String(30), nullable=False)
+    password = db.Column(db.String(60), nullable=False)
     fb = db.Column(db.String(30))
     wa = db.Column(db.String(30))
     needcurr = db.Column(db.String(15))
