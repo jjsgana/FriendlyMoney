@@ -8,7 +8,6 @@ import os
 from os import path
 import mysql.connector
 
-
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 
@@ -36,6 +35,7 @@ def create_app(config_class=Config):
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(users, url_prefix='/')
     app.register_blueprint(errors, url_prefix='/')
+
 
     mydb = mysql.connector.connect(
     user=Config.MYSQL_USER,
